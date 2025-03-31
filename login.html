@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/style.css"> <!-- Adjusted to Flask-served path -->
+    <title>Modern Login Page | AsmrProg</title>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form id="signupForm" novalidate>
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <input type="text" id="signup-name" placeholder="Name" required>
+                <span class="error-message" id="signup-name-error"></span>
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <span class="error-message" id="signup-email-error"></span>
+                <input type="password" id="signup-password" placeholder="Password" required minlength="8">
+                <span class="error-message" id="signup-password-error"></span>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form novalidate>
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email password</span>
+                <input type="email" id="login-email" placeholder="Email" required>
+                <span class="error-message" id="login-email-error"></span>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <span class="error-message" id="login-password-error"></span>
+                <a href="#" id="forgotPasswordLink">Forget Your Password?</a>
+                <button>Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Reset Password</h2>
+            <p>Enter your email address to receive a reset link</p>
+            <form id="forgotPasswordForm">
+                <input type="email" id="resetEmail" placeholder="Your email" required>
+                <span class="error-message" id="reset-email-error"></span>
+                <button type="submit">Send Reset Link</button>
+            </form>
+            <div id="resetSuccess" style="display:none">
+                <p><i class="fas fa-check-circle"></i> Reset link generated!</p>
+                <p>For demo purposes, click the link below:</p>
+                <a href="#" id="demoResetLink" class="demo-link">Click to reset password</a>
+                <p>In production, this would be emailed to you</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script> <!-- Adjusted to Flask-served path -->
+</body>
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinemaPredict | Movie Success Prediction</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --dark: #0a0e17;
+            --light: #ffffff;
+            --accent: #ffd700;
+            --text: #e0e0e0;
+            --success: #4CAF50;
+            --average: #FFC107;
+            --failure: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark), #1a1a2e);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        /* Header Styles */
+        header {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 14, 23, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        .logo h1 {
+            font-size: 1.75rem;
+            background: linear-gradient(to right, var(--accent), var(--light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-content h2 span {
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .stats {
+            margin-top: 2rem;
+        }
+
+        .stats p {
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 5%;
+            background: rgba(10, 14, 23, 0.7);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .feature-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Prediction Demo Section */
+        .demo {
+            padding: 5rem 5%;
+            text-align: center;
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .prediction-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group select option {
+            color: black;
+            background: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background: rgba(106, 17, 203, 0.2);
+            border: 1px solid var(--primary);
+            display: none; /* Start hidden */
+        }
+
+        .result h4 {
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .meter {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .meter-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 10px;
+            width: 0;
+            transition: width 1s ease;
+        }
+
+        .debug-console {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .debug-toggle {
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 14, 23, 0.9);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Loading spinner styles */
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+        }
+        .btn-loading:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .hero-image {
+                margin-top: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero-content h2 {
+                font-size: 2.5rem;
+            }
+
+            .demo-container {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-film"></i>
+            <h1>CinemaPredict</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <button id="logoutBtn" class="btn btn-outline" style="display: none;">LOGOUT</button>
+            <a href="/login.html" class="btn btn-outline" id="loginBtn">LOGIN</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Predict Movie Success with <span>XGBoost</span></h2>
+            <p>Our advanced machine learning algorithms analyze historical data, cast details, genre trends, and market conditions to forecast box office performance with unprecedented accuracy.</p>
+            <div class="stats">
+                <p><i class="fas fa-check-circle" style="color: var(--accent);"></i> 95% Prediction Accuracy</p>
+                <p><i class="fas fa-database" style="color: var(--accent);"></i> 10,000+ Movies Analyzed</p>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1925&auto=format&fit=crop" alt="Movie Analytics Dashboard">
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="section-title">
+            <h3>Why Choose CinemaPredict?</h3>
+            <p>Our platform combines cutting-edge technology with comprehensive movie data to deliver the most reliable predictions in the industry.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                <h4>Advanced AI Models</h4>
+                <p>Our neural networks analyze hundreds of factors including social media buzz, critic reviews, and historical genre performance.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <h4>Real-time Analytics</h4>
+                <p>Get continuously updated predictions as new data comes in throughout a movie's theatrical run.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-money-bill-wave"></i></div>
+                <h4>Investment Insights</h4>
+                <p>Valuable data for producers, studios, and investors to make informed decisions about film projects.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prediction Demo Section -->
+    <section class="demo">
+        <div class="section-title">
+            <h3>Try Our Prediction Engine</h3>
+            <p>Enter movie details below to get an instant success prediction</p>
+        </div>
+        <div class="demo-container">
+            <form class="prediction-form" id="predictionForm">
+                <div class="form-group">
+                    <label for="movieTitle">Movie Title</label>
+                    <input type="text" id="movieTitle" placeholder="Enter movie title">
+                </div>
+                <div class="form-group">
+                    <label for="year">Release Year</label>
+                    <input type="number" id="year" placeholder="Enter release year" required>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration (minutes)</label>
+                    <input type="number" id="duration" placeholder="Enter duration in minutes" required>
+                </div>
+                <div class="form-group">
+                    <label for="director">Director</label>
+                    <input type="text" id="director" placeholder="Enter director's name" required>
+                </div>
+                <div class="form-group">
+                    <label for="movieGenre">Genre</label>
+                    <select id="movieGenre" required>
+                        <option value="">Select Genre</option>
+                        <option value="Action">Action</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Romance">Romance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="leadactor">Lead Actor</label>
+                    <input type="text" id="leadactor" placeholder="Enter lead actor" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="predictBtn">Predict Success</button>
+            </form>
+
+            <div class="result" id="predictionResult" style="display: none;">
+                <h4>Prediction Result</h4>
+                <p id="resultText">Based on our analysis, this movie has a <span id="successPercent">0.00</span>% chance of commercial success.</p>
+                <div class="meter">
+                    <div class="meter-bar" id="successMeter"></div>
+                </div>
+                <p id="resultDetails">Our algorithm considers factors like genre trends, duration, director reputation, and star power to generate this prediction.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                <h1>CinemaPredict</h1>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+                <a href="#">API Documentation</a>
+            </div>
+            <p class="copyright">© 2024 CinemaPredict. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Check login status and update UI
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true';
+            const logoutBtn = document.getElementById('logoutBtn');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (isLoggedIn) {
+                logoutBtn.style.display = 'block';
+                loginBtn.style.display = 'none';
+            }
+            
+            logoutBtn.addEventListener('click', function() {
+                sessionStorage.removeItem('loggedIn');
+                window.location.href = '/login.html';
+            });
+
+            // Prediction Form Handling
+            const predictionForm = document.getElementById('predictionForm');
+            const predictBtn = document.getElementById('predictBtn');
+            if (!predictionForm) {
+                console.error('Prediction form not found');
+                return;
+            }
+
+            predictionForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Show loading state
+                predictBtn.classList.add('btn-loading');
+                predictBtn.disabled = true;
+
+                // Get form values
+                const title = document.getElementById('movieTitle').value;
+                const year = parseInt(document.getElementById('year').value) || 0;
+                const duration = parseInt(document.getElementById('duration').value) || 0;
+                const director = document.getElementById('director').value;
+                const genre = document.getElementById('movieGenre').value;
+                const leadActor = document.getElementById('leadactor').value;
+
+                // Prepare data for API
+                const data = {
+                    title: title,
+                    year: year,
+                    duration: duration,
+                    director: director,
+                    genre: genre,
+                    actor: leadActor
+                };
+
+                try {
+                    // Send data to Flask backend
+                    const response = await fetch('/predict', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.status === 'success') {
+                        // Get DOM elements
+                        const successPercent = document.getElementById('successPercent');
+                        const resultText = document.getElementById('resultText');
+                        const successMeter = document.getElementById('successMeter');
+                        const predictionResult = document.getElementById('predictionResult');
+
+                        // Display result
+                        const probability = result.probability;  // Already formatted as "50.00"
+                        successPercent.textContent = probability;
+                        resultText.textContent = 
+                            `Based on our analysis, "${result.title}" is predicted to be ${result.prediction} with a ${probability}% probability.`;
+                        
+                        // Update meter
+                        successMeter.style.width = '0';  // Reset to 0 before animation
+                        setTimeout(() => {
+                            successMeter.style.width = `${probability}%`;  // Animate to new value
+                        }, 100);
+
+                        // Show result
+                        predictionResult.style.display = 'block';
+                        predictionResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                        // Reset form for next prediction
+                        predictionForm.reset();
+                    } else {
+                        alert(`Prediction failed: ${result.message}`);
+                    }
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                } finally {
+                    // Remove loading state
+                    predictBtn.classList.remove('btn-loading');
+                    predictBtn.disabled = false;
+                }
+            });
+        });
+
+        // Animate elements when they come into view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .demo-container').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

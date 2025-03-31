@@ -1,0 +1,527 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: white;
+    background: linear-gradient(to right, #0a0e17, #0a0e17);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container{
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+}
+
+.container p{
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 20px 0;
+}
+
+.container span{
+    font-size: 12px;
+}
+
+.container a{
+    color: orange;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 15px 0 10px;
+}
+
+.container button{
+    background-color: orange;
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.container button.hidden{
+    background-color: transparent;
+    border-color: #fff;
+}
+
+.container form{
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    height: 100%;
+}
+
+.container input{
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+.form-container{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in{
+    left: 0;
+    width: 50%;
+    z-index: 2;
+    color: orange;
+}
+
+.container.active .sign-in{
+    transform: translateX(100%);
+}
+
+.sign-up{
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+    color: orange;
+}
+
+.container.active .sign-up{
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: move 0.6s;
+}
+
+@keyframes move{
+    0%, 49.99%{
+        opacity: 0;
+        z-index: 1;
+    }
+    50%, 100%{
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+.social-icons{
+    margin: 20px 0;
+}
+
+.social-icons a{
+    border: 1px solid orange;
+    border-radius: 20%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3px;
+    width: 40px;
+    height: 40px;
+}
+
+.toggle-container{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    border-radius: 150px 0 0 100px;
+    z-index: 1000;
+}
+
+.container.active .toggle-container{
+    transform: translateX(-100%);
+    border-radius: 0 150px 100px 0;
+}
+
+.toggle{
+    background-color: orange;
+    height: 100%;
+    background: linear-gradient(to right, #131415, orange);
+    color: orange;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.container.active .toggle{
+    transform: translateX(50%);
+}
+
+.toggle-panel{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 30px;
+    text-align: center;
+    top: 0;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.toggle-left{
+    transform: translateX(-200%);
+}
+
+.container.active .toggle-left{
+    transform: translateX(0);
+}
+
+.toggle-right{
+    right: 0;
+    transform: translateX(0);
+}
+
+.container.active .toggle-right{
+    transform: translateX(200%);
+}
+
+/* Error message styling */
+.error-message {
+    color: #ff3333;
+    font-size: 12px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+    display: none;
+    text-align: left;
+    width: 100%;
+    padding-left: 5px;
+}
+
+input.error {
+    border: 1px solid #ff3333 !important;
+}
+
+input.valid {
+    border: 1px solid #4CAF50 !important;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+    color: #333;
+}
+
+.modal-content h2 {
+    color: orange;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.modal-content p {
+    color: #555;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.modal-content input[type="email"] {
+    background-color: #eee;
+    border: none;
+    margin: 10px 0;
+    padding: 12px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+.modal-content button {
+    background-color: orange;
+    color: #fff;
+    font-size: 12px;
+    padding: 12px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #e69500;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+    transition: all 0.3s ease;
+}
+
+.close:hover {
+    color: #333;
+}
+
+#resetSuccess {
+    color: #4CAF50;
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(76, 175, 80, 0.1);
+    margin-top: 20px;
+    display: none;
+}
+
+#resetSuccess i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+#resetSuccess p {
+    color: #4CAF50;
+    margin-bottom: 5px;
+}
+
+/* Reset Password Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+    color: #333;
+}
+
+.modal-content h2 {
+    color: orange;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.modal-content p {
+    color: #555;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.modal-content input[type="email"] {
+    background-color: #eee;
+    border: none;
+    margin: 10px 0;
+    padding: 12px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+.modal-content button {
+    background-color: orange;
+    color: #fff;
+    font-size: 12px;
+    padding: 12px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.modal-content button:hover {
+    background-color: #e69500;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+    transition: all 0.3s ease;
+}
+
+.close:hover {
+    color: #333;
+}
+
+#resetSuccess {
+    color: #4CAF50;
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(76, 175, 80, 0.1);
+    margin-top: 20px;
+    display: none;
+}
+
+#resetSuccess i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+#resetSuccess p {
+    color: #4CAF50;
+    margin-bottom: 5px;
+}
+
+/* Reset Password Page Styles */
+.reset-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, #0a0e17, #0a0e17);
+}
+
+.reset-box {
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.reset-box h1 {
+    color: orange;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.reset-box input {
+    background-color: #eee;
+    border: none;
+    margin: 10px 0;
+    padding: 12px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+.reset-box button {
+    background-color: orange;
+    color: #fff;
+    font-size: 12px;
+    padding: 12px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.reset-box button:hover {
+    background-color: #e69500;
+}
+
+#successMessage {
+    color: #4CAF50;
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(76, 175, 80, 0.1);
+    margin-top: 20px;
+    display: none;
+}
+
+#successMessage a {
+    color: orange;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+#successMessage i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.demo-link {
+    display: block;
+    margin: 15px auto 0;
+    color: orange;
+    text-align: center;
+    text-decoration: underline;
+}
