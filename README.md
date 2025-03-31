@@ -20,3 +20,23 @@ A Flask-based web application that predicts the success of a movie (Not Successf
 ```bash
 git clone https://github.com/tonyvarghese7/movie-success-predictor.git
 cd movie-success-predictor
+
+2. Set Up a Virtual Environment
+    python -m venv venv
+    On Windows: venv\Scripts\activate
+
+3. Install Dependencies
+    pip install -r requirements.txt
+4. Configure PostgreSQL
+    Install PostgreSQL and create a database named movie_app_db.
+    Run the following SQL to create the users table:
+          CREATE TABLE users (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(100) NOT NULL,
+          email VARCHAR(100) UNIQUE NOT NULL,
+          password VARCHAR(255) NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          );
+7. Run the Application
+    python app.py
+    Open http://localhost:5000 in your browser.
